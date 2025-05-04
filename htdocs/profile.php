@@ -150,35 +150,36 @@ $user_id = $_SESSION['user_id'];
             };
         }
 
-        async function loadProfile() {
-            if (!userId) {
-                document.getElementById('profileInfo').innerHTML = `<p class="error">لطفاً وارد حساب کاربری خود شوید</p>`;
-                window.location.href = 'login.php';
-                return;
-            }
-            try {
-                const response = await fetch(`get_profile.php?user_id=${userId}`, {
-                    method: 'GET',
-                    headers: { 'Accept': 'application/json' }
-                });
-                const text = await response.text(); 
-                console.log('استجابة get_profile.php:', text); 
-                if (!response.ok) {
-                    throw new Error(`خطای شبکه: ${response.status} ${response.statusText}`);
-                }
-                const user = JSON.parse(text);
-                if (user.error) {
-                    document.getElementById('profileInfo').innerHTML = `<p class="error">${user.error}</p>`;
-                    return;
-                }
-                document.getElementById('name').value = user.name || '';
-                document.getElementById('national_id').value = user.national_id || '';
-                document.getElementById('insurance_number').value = user.insurance_number || '';
-                document.getElementById('email').value = user.email || '';
-            } catch (error) {
-                document.getElementById('profileInfo').innerHTML = `<p class="error">خطا در بارگذاری اطلاعات: ${error.message}</p>`;
-            }
+
+async function loadProfile() {
+    if (!userId) {
+        document.getElementById('profileInfo').innerHTML = '<p class="error">لطفاً وارد حساب کاربری خود شوید</p>';
+        window.location.href = 'login.php';
+        return;
+    }
+    try {
+        const response = await fetch(get_profile.php?user_id=${userId}, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        });
+        const text = await response.text(); 
+        console.log('استجابة get_profile.php:', text); 
+        if (!response.ok) {
+            throw new Error(خطای شبکه: ${response.status} ${response.statusText});
         }
+        const user = JSON.parse(text);
+        if (user.error) {
+            document.getElementById('profileInfo').innerHTML = <p class="error">${user.error}</p>;
+            return;
+        }
+        document.getElementById('name').value = user.name || '';
+        document.getElementById('national_id').value = user.national_id || '';
+        document.getElementById('insurance_number').value = user.insurance_number || '';
+        document.getElementById('email').value = user.email || '';
+    } catch (error) {
+        document.getElementById('profileInfo').innerHTML = <p class="error">خطا در بارگذاری اطلاعات: ${error.message}</p>;
+    }
+}
 
         async function updateProfile() {
             if (!userId) {
